@@ -1,6 +1,7 @@
 import sys
 from selenium import webdriver  # import selenium to the file
 from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.action_chains import ActionChains
 
 import aos_locators as locators
 from time import sleep
@@ -11,6 +12,7 @@ from selenium.webdriver.common.keys import Keys
 
 s = Service(executable_path='chromedriver.exe')
 driver = webdriver.Chrome(service=s)
+a = ActionChains(driver)
 
 
 def setUp():
@@ -69,7 +71,7 @@ def createnewuser():
 
 
 def log_in():
-    if driver.current_url == 'https://advantageonlineshopping.com/#/':
+    if driver.current_url == locators.app_url:
         print('Sign in page displayed')
         sleep(3)
         # driver.find_element(By.ID, 'menuUserSVGPath').click()
@@ -96,6 +98,88 @@ def log_out():
     print("User logged out")
 
 
+def checkhomepagetextsandlinks():
+    if driver.current_url == locators.app_url:
+        for i in range(len(locators.list_txtid)):
+            sleep(0.25)
+            ids, lbls, txts = locators.list_txtid[i], locators.list_lblid[i], locators.list_txt[i]
+            print(ids, lbls, txts)
+            assert driver.find_element(By.ID, ids).is_displayed()
+            m = driver.find_element(By.ID, ids)
+            a.move_to_element(m).perform()
+            driver.find_element(By.ID, lbls).click()
+            assert driver.find_element(By.LINK_TEXT, txts).is_displayed()
+            print(f'{txts} - SHOP NOW clickable')
+            driver.find_element(By.LINK_TEXT, 'HOME').click()
+
+        '''assert driver.find_element(By.ID, 'speakersTxt').is_displayed()
+        # object of ActionChains
+        a = ActionChains(driver)
+        # identify element
+        m = driver.find_element(By.ID, 'speakersTxt')
+        # hover over element
+        a.move_to_element(m).perform()
+        #driver.find_element(By.ID, 'speakersImg')
+        driver.find_element(By.ID, 'speakersLink').click()'''
+
+
+def checktopnav():
+    if driver.current_url == locators.app_url:
+        sleep(3)
+        driver.find_element(By.LINK_TEXT, 'SPECIAL OFFER').click()
+
+        assert driver.find_element(By.XPATH, '//h3[contains(.,"SPECIAL OFFER")]').is_displayed()
+        sleep(2)
+        driver.find_element(By.LINK_TEXT, 'POPULAR ITEMS').click()
+        assert driver.find_element(By.XPATH, '//h3[contains(.,"POPULAR ITEMS")]').is_displayed()
+        sleep(2)
+        driver.find_element(By.LINK_TEXT, 'CONTACT US').click()
+        assert driver.find_element(By.XPATH, '//h1[contains(.,"CONTACT US")]').is_displayed()
+        print('topmenu checking success')
+
+
+def checklogo():
+    if driver.current_url == locators.app_url:
+        sleep(2)
+        assert driver.find_element(By.ID, 'Layer_1').is_displayed()
+        assert driver.find_element(By.XPATH, '//span[contains(.,"dvantage")]').is_displayed()
+        assert driver.find_element(By.XPATH, '//span[contains(.,"DEMO")]').is_displayed()
+        print('logo displayed')
+
+def checkcontactform():
+    if driver.current_url == locators.app_url:
+        sleep(3)
+        driver.find_element(By.LINK_TEXT, 'CONTACT US').click()
+        sleep(0.2)
+        assert driver.find_element(By.XPATH, '//h1[contains(.,"CONTACT US")]').is_displayed()
+        Select(driver.find_element(By.NAME, 'categoryListboxContactUs')).select_by_visible_text("Laptops")
+        sleep(0.25)
+        Select(driver.find_element(By.NAME, 'productListboxContactUs')).select_by_visible_text("HP Chromebook 14 G1(ENERGY STAR)")
+        sleep(0.25)
+        driver.find_element(By.NAME, 'emailContactUs').send_keys(locators.email1)
+        sleep(0.25)
+        driver.find_element(By.NAME, 'subjectTextareaContactUs').send_keys(locators.subject)
+
+        driver.find_element(By.ID,'send_btnundefined').click()
+        sleep(0.25)
+        assert driver.find_element(By.XPATH, '//p[text()="Thank you for contacting Advantage support."]').is_displayed()
+        #assert driver.find_element(By.XPATH, '//p[contains(.," Thank you for contacting Advantage support. ")]').is_displayed()
+        print("value selected")
+        sleep(2)
+        #driver.find_element(By.LINK_TEXT,' CONTINUE SHOPPING ').click()
+        driver.find_element(By.XPATH, '//a[contains(.,"CONTINUE SHOPPING")]').click()
+        sleep(0.25)
+        print('contact us form checked')
+
+def checksocialmedialinks():
+    if driver.current_url == locators.app_url:
+        sleep(3)
+        driver.find_element(By.NAME,'follow_facebook').click()
+        driver.find_element(By.NAME, 'follow_twitter').click()
+        driver.find_element(By.NAME, 'follow_linkedin').click()
+        print('social media links worked')
+
+
 def tearDown():
     if driver is not None:
         print('--------------------~*~--------------------')
@@ -110,4 +194,9 @@ createnewuser()
 log_out()
 log_in()
 log_out()
+checkhomepagetextsandlinks()
+checktopnav()
+checklogo()
+checkcontactform()
+checksocialmedialinks()
 tearDown()'''

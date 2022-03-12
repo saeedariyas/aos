@@ -16,6 +16,8 @@ country = fake.current_country()
 address = fake.address().replace("\n", " ")[:5]
 state = fake.word()
 postalcode = fake.postalcode()
+email1 = fake.email()
+subject = fake.sentence(nb_words=10)
 
 list_names = ['usernameRegisterPage', 'emailRegisterPage', 'passwordRegisterPage', 'confirm_passwordRegisterPage'
     , 'first_nameRegisterPage', 'last_nameRegisterPage', 'phone_numberRegisterPage',
@@ -24,3 +26,7 @@ list_names = ['usernameRegisterPage', 'emailRegisterPage', 'passwordRegisterPage
 list_val = [new_username, email, new_password, new_password,
             first_name, last_name, phone,
             city, address, state, postalcode]
+
+list_txtid = ['speakersTxt', 'tabletsTxt', 'laptopsTxt', 'miceTxt', 'headphonesTxt']
+list_lblid = ['speakersLink', 'tabletsLink', 'laptopsLink', 'miceLink', 'headphonesLink']
+list_txt = ['SPEAKERS', 'TABLETS', 'LAPTOPS', 'MICE', 'HEADPHONES']
