@@ -15,7 +15,7 @@ driver = webdriver.Chrome(service=s)
 a = ActionChains(driver)
 
 
-def setUp():
+def setup():
     print(f'Launch {locators.app} App')
     print('--------------------~*~--------------------')
     # Make browser full screen
@@ -146,6 +146,7 @@ def checklogo():
         assert driver.find_element(By.XPATH, '//span[contains(.,"DEMO")]').is_displayed()
         print('logo displayed')
 
+
 def checkcontactform():
     if driver.current_url == locators.app_url:
         sleep(3)
@@ -154,30 +155,91 @@ def checkcontactform():
         assert driver.find_element(By.XPATH, '//h1[contains(.,"CONTACT US")]').is_displayed()
         Select(driver.find_element(By.NAME, 'categoryListboxContactUs')).select_by_visible_text("Laptops")
         sleep(0.25)
-        Select(driver.find_element(By.NAME, 'productListboxContactUs')).select_by_visible_text("HP Chromebook 14 G1(ENERGY STAR)")
+        Select(driver.find_element(By.NAME, 'productListboxContactUs')).select_by_visible_text(
+            "HP Chromebook 14 G1(ENERGY STAR)")
         sleep(0.25)
         driver.find_element(By.NAME, 'emailContactUs').send_keys(locators.email1)
         sleep(0.25)
         driver.find_element(By.NAME, 'subjectTextareaContactUs').send_keys(locators.subject)
 
-        driver.find_element(By.ID,'send_btnundefined').click()
+        driver.find_element(By.ID, 'send_btnundefined').click()
         sleep(0.25)
         assert driver.find_element(By.XPATH, '//p[text()="Thank you for contacting Advantage support."]').is_displayed()
-        #assert driver.find_element(By.XPATH, '//p[contains(.," Thank you for contacting Advantage support. ")]').is_displayed()
+        # assert driver.find_element(By.XPATH, '//p[contains(.," Thank you for contacting Advantage support. ")]').is_displayed()
         print("value selected")
         sleep(2)
-        #driver.find_element(By.LINK_TEXT,' CONTINUE SHOPPING ').click()
+        # driver.find_element(By.LINK_TEXT,' CONTINUE SHOPPING ').click()
         driver.find_element(By.XPATH, '//a[contains(.,"CONTINUE SHOPPING")]').click()
         sleep(0.25)
         print('contact us form checked')
 
+
 def checksocialmedialinks():
     if driver.current_url == locators.app_url:
         sleep(3)
-        driver.find_element(By.NAME,'follow_facebook').click()
+        driver.find_element(By.NAME, 'follow_facebook').click()
         driver.find_element(By.NAME, 'follow_twitter').click()
         driver.find_element(By.NAME, 'follow_linkedin').click()
         print('social media links worked')
+
+
+def checkout_shopping():
+    # sleep(5)
+    # driver.execute_script("window.scrollTo(0, document.body.scrollHeight)")
+    sleep(2)
+    m = driver.find_element(By.ID, 'details_10')
+    a.move_to_element(m).perform()
+    sleep(0.25)
+    driver.find_element(By.ID, 'details_10').click()
+    sleep(0.25)
+
+    assert driver.find_element(By.LINK_TEXT, 'HP CHROMEBOOK 14 G1(ES)').is_displayed()
+    sleep(0.25)
+    driver.find_element(By.CLASS_NAME, 'plus').click()
+    sleep(0.25)
+    driver.find_element(By.NAME, 'save_to_cart').click()
+
+    driver.find_element(By.ID, 'menuCart').click()
+    sleep(0.25)
+    driver.find_element(By.XPATH, '//label[contains(.,"HP CHROMEBOOK 14 G1(ES)")]').click()
+    # driver.find_element(By.LINK_TEXT, 'HP CHROMEBOOK 14 G1(ES)').click()
+    sleep(0.25)
+    driver.find_element(By.ID, 'checkOutButton').click()
+    sleep(0.25)
+    assert driver.find_element(By.XPATH, '//h3[contains(.,"ORDER PAYMENT")]').is_displayed()
+    sleep(1)
+    name = locators.first_name + ' ' + locators.last_name
+    print(name)
+    sleep(2)
+    assert driver.find_element(By.XPATH, f'//label[contains(.,"{name}")]').is_displayed()
+    #ss: str = driver.find_element(By.XPATH, '//*[@class="ng-binding"]').text
+    sleep(2)
+    print("order payment page")
+    driver.find_element(By.ID, 'next_btn').click()
+    sleep(0.25)
+    driver.find_element(By.NAME, 'safepay_username').send_keys(locators.spusername)
+    driver.find_element(By.NAME, 'safepay_password').send_keys(locators.sppassword)
+    sleep(0.25)
+    driver.find_element(By.ID, 'pay_now_btn_SAFEPAY').click()
+    sleep(1)
+
+    #assert driver.find_element(By.XPATH, f'//label[contains(.,"{name}")]').is_displayed()
+    sleep(2)
+    #assert driver.find_element(By.XPATH, f'//label[contains(.,"{locators.state}")]').is_displayed()
+    #assert driver.find_element(By.XPATH, '//span[@translate="Thank_you_for_buying_with_Advantage")]').is_displayed()
+    assert driver.find_element(By.XPATH, '//*[@id="orderPaymentSuccess"]/h2/span[contains(.,"Thank you for buying with Advantage")]').is_displayed()
+
+    #assert driver.find_element(By.XPATH, f"//label[text=()='{locators.full_name}']").is_displayed()
+
+    print('order completed')
+    sleep(2)
+    tracking_number = driver.find_element(By.ID, 'trackingNumberLabel').text
+
+    order_number = driver.find_element(By.ID, 'orderNumberLabel').text
+
+    sleep(1)
+    print(tracking_number+ ' '+order_number)
+    #assert driver.find_element(By.XPATH, f'//*[@id="orderPaymentSuccess"]/div/label[contains(.,{locators.full_name})]').is_displayed()
 
 
 def tearDown():
@@ -189,10 +251,11 @@ def tearDown():
         driver.quit()
 
 
-'''setUp()
+'''setup()
 createnewuser()
-log_out()
-log_in()
+# log_out()
+# log_in()
+checkout_shopping()
 log_out()
 checkhomepagetextsandlinks()
 checktopnav()

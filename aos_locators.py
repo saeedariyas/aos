@@ -7,6 +7,7 @@ app_url = 'https://advantageonlineshopping.com/#/'
 home_page_title = '\xa0Advantage Shopping'
 first_name = fake.first_name()
 last_name = fake.last_name()
+full_name = first_name+' '+last_name
 new_username = f'{first_name}'.lower()
 new_password = fake.password()
 email = f'{new_username}@{fake.free_email_domain()}'
@@ -18,6 +19,8 @@ state = fake.word()
 postalcode = fake.postalcode()
 email1 = fake.email()
 subject = fake.sentence(nb_words=10)
+spusername = 'sp_'+new_username
+sppassword = 'Sp123'
 
 list_names = ['usernameRegisterPage', 'emailRegisterPage', 'passwordRegisterPage', 'confirm_passwordRegisterPage'
     , 'first_nameRegisterPage', 'last_nameRegisterPage', 'phone_numberRegisterPage',
