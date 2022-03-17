@@ -14,8 +14,8 @@ email = f'{new_username}@{fake.free_email_domain()}'
 phone = fake.phone_number()
 city = fake.city()
 country = fake.current_country()
-address = fake.address().replace("\n", " ")[:5]
-state = fake.word()
+address = fake.street_address().replace("\n", " ")[:5]
+state = fake.province_abbr()
 postalcode = fake.postalcode()
 email1 = fake.email()
 subject = fake.sentence(nb_words=10)

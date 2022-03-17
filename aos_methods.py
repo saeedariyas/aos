@@ -30,7 +30,7 @@ def setup():
     if driver.current_url == locators.app_url and driver.title == locators.home_page_title:
         print(f'Yey! {locators.app} Launched Successfully')
         print(f'{locators.app} homepage URL: {driver.current_url}\nHome Page Title: {driver.title}')
-        sleep(0.25)
+        sleep(1)
     else:
         print(f'{locators.app}  did not launch. Check your code or application!')
         print(f'Current URL: {driver.current_url}, Page Title: {driver.title}')
@@ -39,6 +39,7 @@ def setup():
 
 def createnewuser():
     print('........Creating new account.......')
+    sleep(1)
 
     driver.find_element(By.ID, 'menuUserSVGPath').click()
     sleep(3)
@@ -52,17 +53,17 @@ def createnewuser():
     for i in range(len(locators.list_names)):
         name, val = locators.list_names[i], locators.list_val[i]
         driver.find_element(By.NAME, name).send_keys(val)
-        sleep(0.25)
+        sleep(1)
 
         # To select country from drop down
 
         # Select(driver.find_element(By.NAME, 'countryListboxRegisterPage')).select_by_visible_text(country)
-    sleep(0.25)
+    sleep(1)
 
     driver.find_element(By.NAME, 'i_agree').click()
-    sleep(0.25)
+    sleep(1)
     driver.find_element(By.ID, 'register_btnundefined').click()
-    sleep(0.25)
+    sleep(1)
     print("Registration complete")
 
     # assert driver.find_element(By.XPATH, f'//span[contains(.,{new_username})]').is_displayed()
@@ -79,9 +80,11 @@ def log_in():
         # driver.find_element(By.ID, 'menuUser').click()
         print('........New user Signing in......')
         driver.find_element(By.NAME, 'username').send_keys(locators.new_username)
+        sleep(1)
         driver.find_element(By.NAME, 'password').send_keys(locators.new_password)
+        sleep(1)
         driver.find_element(By.ID, 'sign_in_btnundefined').click()
-        sleep(0.25)
+        sleep(1)
         assert driver.find_element(By.LINK_TEXT, locators.new_username).is_displayed()
         # print('Signed in')
         print('........ Validated - Signed in successfully........ ')
@@ -101,7 +104,7 @@ def log_out():
 def checkhomepagetextsandlinks():
     if driver.current_url == locators.app_url:
         for i in range(len(locators.list_txtid)):
-            sleep(0.25)
+            sleep(1)
             ids, lbls, txts = locators.list_txtid[i], locators.list_lblid[i], locators.list_txt[i]
             print(ids, lbls, txts)
             assert driver.find_element(By.ID, ids).is_displayed()
@@ -151,26 +154,26 @@ def checkcontactform():
     if driver.current_url == locators.app_url:
         sleep(3)
         driver.find_element(By.LINK_TEXT, 'CONTACT US').click()
-        sleep(0.2)
+        sleep(1)
         assert driver.find_element(By.XPATH, '//h1[contains(.,"CONTACT US")]').is_displayed()
         Select(driver.find_element(By.NAME, 'categoryListboxContactUs')).select_by_visible_text("Laptops")
-        sleep(0.25)
+        sleep(1)
         Select(driver.find_element(By.NAME, 'productListboxContactUs')).select_by_visible_text(
             "HP Chromebook 14 G1(ENERGY STAR)")
-        sleep(0.25)
+        sleep(1)
         driver.find_element(By.NAME, 'emailContactUs').send_keys(locators.email1)
-        sleep(0.25)
+        sleep(1)
         driver.find_element(By.NAME, 'subjectTextareaContactUs').send_keys(locators.subject)
 
         driver.find_element(By.ID, 'send_btnundefined').click()
-        sleep(0.25)
+        sleep(1)
         assert driver.find_element(By.XPATH, '//p[text()="Thank you for contacting Advantage support."]').is_displayed()
         # assert driver.find_element(By.XPATH, '//p[contains(.," Thank you for contacting Advantage support. ")]').is_displayed()
         print("value selected")
         sleep(2)
         # driver.find_element(By.LINK_TEXT,' CONTINUE SHOPPING ').click()
         driver.find_element(By.XPATH, '//a[contains(.,"CONTINUE SHOPPING")]').click()
-        sleep(0.25)
+        sleep(1)
         print('contact us form checked')
 
 
@@ -197,25 +200,26 @@ def checkout_shopping():
     # sleep(5)
     # driver.execute_script("window.scrollTo(0, document.body.scrollHeight)")
     sleep(2)
-    m = driver.find_element(By.ID, 'details_10')
-    a.move_to_element(m).perform()
-    sleep(0.25)
-    driver.find_element(By.ID, 'details_10').click()
-    sleep(0.25)
+    driver.get('https://advantageonlineshopping.com/#/product/10')
+    #m=driver.find_element(By.ID, 'details_10')
+    #a.move_to_element(m).perform()
+
+    #driver.find_element(By.ID, 'details_10').click()
+    sleep(1)
 
     assert driver.find_element(By.LINK_TEXT, 'HP CHROMEBOOK 14 G1(ES)').is_displayed()
-    sleep(0.25)
+    sleep(1)
     driver.find_element(By.CLASS_NAME, 'plus').click()
-    sleep(0.25)
+    sleep(1)
     driver.find_element(By.NAME, 'save_to_cart').click()
 
     driver.find_element(By.ID, 'menuCart').click()
-    sleep(0.25)
+    sleep(1)
     driver.find_element(By.XPATH, '//label[contains(.,"HP CHROMEBOOK 14 G1(ES)")]').click()
     # driver.find_element(By.LINK_TEXT, 'HP CHROMEBOOK 14 G1(ES)').click()
-    sleep(0.25)
+    sleep(1)
     driver.find_element(By.ID, 'checkOutButton').click()
-    sleep(0.25)
+    sleep(1)
     assert driver.find_element(By.XPATH, '//h3[contains(.,"ORDER PAYMENT")]').is_displayed()
     sleep(1)
     name = locators.first_name + ' ' + locators.last_name
@@ -226,10 +230,10 @@ def checkout_shopping():
     sleep(2)
     print("order payment page")
     driver.find_element(By.ID, 'next_btn').click()
-    sleep(0.25)
+    sleep(1)
     driver.find_element(By.NAME, 'safepay_username').send_keys(locators.spusername)
     driver.find_element(By.NAME, 'safepay_password').send_keys(locators.sppassword)
-    sleep(0.25)
+    sleep(1)
     driver.find_element(By.ID, 'pay_now_btn_SAFEPAY').click()
     sleep(2)
 
@@ -262,11 +266,11 @@ def tearDown():
 
 
 #setup()
-'''createnewuser()
+#createnewuser()
 # log_out()
 # log_in()
-checkout_shopping()
-log_out()
+#checkout_shopping()
+'''log_out()
 checkhomepagetextsandlinks()
 checktopnav()
 checklogo()
