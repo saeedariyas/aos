@@ -178,10 +178,20 @@ def checksocialmedialinks():
     if driver.current_url == locators.app_url:
         sleep(3)
         driver.find_element(By.NAME, 'follow_facebook').click()
+        driver.switch_to.window(driver.window_handles[1])
+        print (driver.current_url)
+        driver.close()
+        driver.switch_to.window(driver.window_handles[0])
         driver.find_element(By.NAME, 'follow_twitter').click()
+        driver.switch_to.window(driver.window_handles[1])
+        driver.close()
+        driver.switch_to.window(driver.window_handles[0])
         driver.find_element(By.NAME, 'follow_linkedin').click()
+        driver.switch_to.window(driver.window_handles[1])
+        driver.close()
+        driver.switch_to.window(driver.window_handles[0])
         print('social media links worked')
-
+#https://www.facebook.com/MicroFocus/
 
 def checkout_shopping():
     # sleep(5)
@@ -221,9 +231,9 @@ def checkout_shopping():
     driver.find_element(By.NAME, 'safepay_password').send_keys(locators.sppassword)
     sleep(0.25)
     driver.find_element(By.ID, 'pay_now_btn_SAFEPAY').click()
-    sleep(1)
+    sleep(2)
 
-    #assert driver.find_element(By.XPATH, f'//label[contains(.,"{name}")]').is_displayed()
+    assert driver.find_element(By.XPATH, f'//*[@class="innerSeccion"]/label[contains(.,"{name}")]').is_displayed()
     sleep(2)
     #assert driver.find_element(By.XPATH, f'//label[contains(.,"{locators.state}")]').is_displayed()
     #assert driver.find_element(By.XPATH, '//span[@translate="Thank_you_for_buying_with_Advantage")]').is_displayed()
@@ -251,8 +261,8 @@ def tearDown():
         driver.quit()
 
 
-'''setup()
-createnewuser()
+#setup()
+'''createnewuser()
 # log_out()
 # log_in()
 checkout_shopping()
@@ -260,6 +270,6 @@ log_out()
 checkhomepagetextsandlinks()
 checktopnav()
 checklogo()
-checkcontactform()
-checksocialmedialinks()
-tearDown()'''
+checkcontactform()'''
+#checksocialmedialinks()
+#tearDown()'''
